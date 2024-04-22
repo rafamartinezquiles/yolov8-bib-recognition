@@ -51,6 +51,37 @@ python move_png_files.py /path/to/test_folder/ /path/to/test_folder/images
 
 3. Within the "labels" directory, you'll encounter two subdirectories: "labels_train" and "labels_test." Place these folders inside the "train" and "test" directories, respectively, so that each contains both "images" and "labels" directories. To accomplish this, rename "labels_train" and "labels_test" to simply "labels" within their respective folders.
 
+4. One notable aspect of YOLO is its dependency on a .yaml file to delineate the paths for both training data (images and labels) and testing, as well as the classes to be identified. To accomplish this, a Python script is executed, with parameters including the training and validation paths of the SVHN dataset. The script generates the required file in the designated location, considering that the other dataset contains all essential files.
+
+```bash
+python create_yaml.py /generic/path/to/where/train/and/test/folder/are
+```
+
+## Training of neural networks
+The training of the neural networks will be accomplished by executing the train.py file, passing a series of arguments that define the characteristics of the neural network. It's important to note that the training process entails two phases: initially, training the network responsible for detecting the bibs worn by each runner, followed by training to recognize the numbers within each bib. The arguments to be specified are:
+
+- **data:** This parameter represents the path leading to the .yaml file associated with each dataset.
+- **imgsz:** Refers to the image size utilized during training.
+- **epochs:** Denotes the number of training epochs. The inclusion of the early stopping attribute allows for the termination of training if the model fails to demonstrate improvement after a specified number of epochs.
+- **batch:** Specifies the batch size utilized during training.
+- **name:** Represents the name assigned to the neural network.
+- **model_size:** This parameter offers a selection of options ('n', 's', 'm', 'l', 'x') corresponding to different versions of YOLOv8 that can be trained.
+
+```bash
+python train.py --data /path/to/the/yaml_file/svhn.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
+```
+
+In case of not having the necessary time or resources to train the neural networks, the weights of the neural networks are provided, except for the extreme version due to a higher weight than allowed.In case you want to use it, you must download it from the following [Link](https://upm365-my.sharepoint.com/:f:/g/personal/rafael_martinez_quiles_alumnos_upm_es/EglMEhA_I9pJgzHpK_QYVHgBIvmszjXRYUIuGxlIEJ-k9w?e=nVKcsS).
+
+## Testing of neural networks
+At this point, a difference will be made between the type of file with which the neural network test is to be performed. The extracted results were established for the set of images that appear in the data used; however, an additional code has been prepared to test the neural networks in video format and to extract bibs every a certain number of seconds, since in real time there are not enough resources.
+
+### Image format
+
+
+### Video Format
+
+
 ## Data Details
 
 ### Training
