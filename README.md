@@ -10,13 +10,16 @@ This repository delves into the exploration of Convolutional Neural Networks (CN
 
 ## Getting started
 
+### Resources used
+A high-performance desktop computer equipped with an Intel Core i9-10900 CPU and a powerful NVIDIA GeForce RTX 3090 GPU (10,496 CUDA cores, 328 Tensor cores, 24GB RAM) graphic card has been used. This robust system efficiently managed the intense computation required for training. Specifically, the training process exclusively used the GPU's parallel processing capabilities for significant speed optimization, reducing training time to approximately 3 hours per model for bib detection, and higher time for number detection (from half a day, to two days for the extreme model).
+
 ### Installing
 The project is deployed in a local machine, so you need to install the next software and dependencies to start working:
 
 1. Create and activate the new virtual environment for the project
 
 ```bash
-conda create --name bib_detection python=3.8
+conda create --name bib_detection python=3.10
 conda activate bib_detection
 ```
 
@@ -31,6 +34,8 @@ git clone https://github.com/rafamartinezquiles/bachelor-s-thesis.git
 ```bash
 pip install -r requirements.txt
 ```
+
+4. In addition to the existing requirements, PyTorch needs to be installed separately. Due to its dependence on various computational specifications, it's essential for each user to install it individually by following the provided link. [PyTorch](https://pytorch.org/).
 
 ### Setup
 Once the training data has been downloaded, training can proceed. It is worth noting that the "bib detection big data" provides functionality to download it in YOLOv8 format, which is recommended. Meanwhile, for SVHN data, we would need to download it in format 1 for both the training set and the test set. However, the latter do not come in the desired YOLOv8 format, so preprocessing would be required.
@@ -77,7 +82,11 @@ In case of not having the necessary time or resources to train the neural networ
 At this point, a difference will be made between the type of file with which the neural network test is to be performed. The extracted results were established for the set of images that appear in the data used; however, an additional code has been prepared to test the neural networks in video format and to extract bibs every a certain number of seconds, since in real time there are not enough resources.
 
 ### Image format
+Utilizing the provided code dedicated to image prediction, upon specifying the desired paths and filenames instead of <people_model_path>, <bib_model_path>, <number_model_path>, <image_folder>, and <output_csv>, we facilitate predictions on an entire image directory. The output log meticulously details the outcomes derived from executing a neural network model across diverse input image dimensions. Each segment of the log commences with comprehensive information regarding the input image size and the count of detected objects or classes. Subsequently, the log meticulously records time measurements in milliseconds for distinct phases of the inference pipeline: preprocessing, inference, and postprocessing. These precise time measurements serve to elucidate the computational efficacy of the model at varying processing stages. Moreover, the log captures scenarios where no objects were detected in specific images, denoted as "(no detections)". Furthermore, a CSV file encapsulating the predictions is automatically generated and stored at the designated path under the specified filename.
 
+```bash
+python image_prediction.py <people_model_path> <bib_model_path> <number_model_path> <image_folder> <output_csv>
+```
 
 ### Video Format
 
