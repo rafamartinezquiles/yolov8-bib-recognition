@@ -82,14 +82,20 @@ In case of not having the necessary time or resources to train the neural networ
 At this point, a difference will be made between the type of file with which the neural network test is to be performed. The extracted results were established for the set of images that appear in the data used; however, an additional code has been prepared to test the neural networks in video format and to extract bibs every a certain number of seconds, since in real time there are not enough resources.
 
 ### Image format
-Utilizing the provided code dedicated to image prediction, upon specifying the desired paths and filenames instead of <people_model_path>, <bib_model_path>, <number_model_path>, <image_folder>, and <output_csv>, we facilitate predictions on an entire image directory. The output log meticulously details the outcomes derived from executing a neural network model across diverse input image dimensions. Each segment of the log commences with comprehensive information regarding the input image size and the count of detected objects or classes. Subsequently, the log meticulously records time measurements in milliseconds for distinct phases of the inference pipeline: preprocessing, inference, and postprocessing. These precise time measurements serve to elucidate the computational efficacy of the model at varying processing stages. Moreover, the log captures scenarios where no objects were detected in specific images, denoted as "(no detections)". Furthermore, a CSV file encapsulating the predictions is automatically generated and stored at the designated path under the specified filename.
+Utilizing the provided code dedicated to image prediction, upon specifying the desired paths and filenames instead of <people_model_path(.pt)>, <bib_model_path(.pt)>, <number_model_path(.pt)>, <image_folder>, and <output_csv>, we facilitate predictions on an entire image directory. The output log meticulously details the outcomes derived from executing a neural network model across diverse input image dimensions. Each segment of the log commences with comprehensive information regarding the input image size and the count of detected objects or classes. Subsequently, the log meticulously records time measurements in milliseconds for distinct phases of the inference pipeline: preprocessing, inference, and postprocessing. These precise time measurements serve to elucidate the computational efficacy of the model at varying processing stages. Moreover, the log captures scenarios where no objects were detected in specific images, denoted as "(no detections)". Furthermore, a CSV file encapsulating the predictions is automatically generated and stored at the designated path under the specified filename.
 
 ```bash
-python image_prediction.py <people_model_path> <bib_model_path> <number_model_path> <image_folder> <output_csv>
+python image_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <image_folder> <output_csv>
 ```
 
 ### Video Format
+This feature was incorporated into the project after to provide users with the capability to identify runners in both images and videos. It achieves this by extracting frames from the video at specified intervals. After the frames are extracted and stored in a folder, the existing procedure for identifying runners in images is applied. While real-time processing was contemplated, its implementation was deemed challenging due to computational resource constraints. For this, unlike the arguments to be inserted in the previous command, you should add the path where the video is placed and the time interval to be spent in the video between each of the frames.
 
+```bash
+python video_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <video_path> <frame_interval> <output_csv>
+```
+
+Executing this command will generate a folder containing each of the frames extracted from the video, alongside a CSV file containing the corresponding predictions for each frame. The terminal output resembles that obtained when making predictions on individual images.
 
 ## Data Details
 
