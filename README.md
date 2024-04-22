@@ -42,7 +42,14 @@ tar -xzvf train.tar.gz
 tar -xzvf test.tar.gz
 ```
 
-2. 
+2. Once the previous folders have been downloaded and unzipped, the next step is to transfer all images to a folder named "images." This is achieved by executing the following commands, where the source path is designated as the first argument and the destination path is the same as the source path, with "/images" appended to ensure the images are saved there. This procedure is applied to both the train and test folders.
+
+```bash
+python move_png_files.py /path/to/train_folder/ /path/to/train_folder/images
+python move_png_files.py /path/to/test_folder/ /path/to/test_folder/images
+```
+
+3. Within the "labels" directory, you'll encounter two subdirectories: "labels_train" and "labels_test." Place these folders inside the "train" and "test" directories, respectively, so that each contains both "images" and "labels" directories. To accomplish this, rename "labels_train" and "labels_test" to simply "labels" within their respective folders.
 
 ## Data Details
 
