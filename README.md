@@ -97,6 +97,29 @@ python video_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <numbe
 
 Executing this command will generate a folder containing each of the frames extracted from the video, alongside a CSV file containing the corresponding predictions for each frame. The terminal output resembles that obtained when making predictions on individual images.
 
+## Extraction of evaluation metrics
+This section is dedicated to extracting evaluation metrics for the RBNR Dataset, as the alternative evaluation method requires special permissions. After generating the CSV file containing predictions for the RBNR's subsets, we proceed to compare the actual values with the predicted ones to determine True Positives (TP), False Positives (FP), and False Negatives (FN). In this context:
+
+- True Positive (TP): Represents correct detections of numbers within the bibs of each runner.
+- True Negative (TN): Not applicable in object detection, as regions outside annotations aren't explicitly labeled.
+- False Positive (FP): Occurs when incorrect detections are made, including cases where objects other than bibs are mistakenly identified. Since our process focuses solely on detecting people, bibs, and numbers, this latter scenario results in FP = 0.
+- False Negative (FN): Refers to rows present in the original CSV but not found in the predicted CSV. This happens when a bib that should be detected in a given image is missed during detection.
+
+If the RBNR Dataset has not been downloaded, it should be obtained to extract evaluation metrics for the trained models.
+
+1. First, access the location where the compressed data is located, then execute the following command in your computer's terminal.
+
+```bash
+unzip RBNR_Datasets.zip
+```
+
+2. Run the following command to generate a CSV file for each subset (subfolder) of the downloaded dataset. These CSV files will be used to extract metrics against the predictions made. Ensure to specify the path where the uncompressed files are located when executing the command.
+```bash
+python create_csv.py path/to/the/unzip_folder
+```
+
+3. 
+
 ## Data Details
 
 ### Training

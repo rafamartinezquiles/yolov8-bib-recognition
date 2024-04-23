@@ -59,24 +59,25 @@ def main(args):
 
     bib_data = []
     for image_file in os.listdir(args.image_folder):
-        image_path = os.path.join(args.image_folder, image_file)
-        results_people = predict_people(model_people, image_path)
-        image = cv2.imread(image_path)
-        cropped_images = process_results_people(results_people, image)
-        for cropped_image in cropped_images:
-            results_rbnr = predict_rbnr(model_rbnr, cropped_image)
-            if results_rbnr.boxes.xyxy.size(0) != 0:
-                x_min, y_min, x_max, y_max = map(int, results_rbnr.boxes.xyxy[0])
-                new_image = cropped_image[y_min:y_max, x_min:x_max]
-                bib_number = get_svhn_number(new_image, model_svhn)
-                bib_data.append({
-                    "image_name": image_file,
-                    "xmin": x_min,
-                    "ymin": y_min,
-                    "xmax": x_max,
-                    "ymax": y_max,
-                    "missing_label": bib_number
-                })
+        if image_file.lower().endswith(('.jpg', '.png')):
+            image_path = os.path.join(args.image_folder, image_file)
+            results_people = predict_people(model_people, image_path)
+            image = cv2.imread(image_path)
+            cropped_images = process_results_people(results_people, image)
+            for cropped_image in cropped_images:
+                results_rbnr = predict_rbnr(model_rbnr, cropped_image)
+                if results_rbnr.boxes.xyxy.size(0) != 0:
+                    x_min, y_min, x_max, y_max = map(int, results_rbnr.boxes.xyxy[0])
+                    new_image = cropped_image[y_min:y_max, x_min:x_max]
+                    bib_number = get_svhn_number(new_image, model_svhn)
+                    bib_data.append({
+                        "image_name": image_file,
+                        "xmin": x_min,
+                        "ymin": y_min,
+                        "xmax": x_max,
+                        "ymax": y_max,
+                        "missing_label": bib_number
+                    })
 
     pred_csv_file = args.output_csv
     fieldnames = ['image_name', 'xmin', 'ymin', 'xmax', 'ymax', 'missing_label']
