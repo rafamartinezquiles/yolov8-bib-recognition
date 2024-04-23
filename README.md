@@ -114,11 +114,21 @@ unzip RBNR_Datasets.zip
 ```
 
 2. Run the following command to generate a CSV file for each subset (subfolder) of the downloaded dataset. These CSV files will be used to extract metrics against the predictions made. Ensure to specify the path where the uncompressed files are located when executing the command.
+
 ```bash
 python create_csv.py path/to/the/unzip_folder
 ```
 
-3. 
+3. Finally, in order to calculate all the necessary variables for the metrics calculation, we proceed to execute the code "calculate_metrics.py" where we have to pass as arguments the csv with the predictions and the original csv and it will return on the screen the 4 necessary variables.
+
+```bash
+python calculate_metrics.py /path/to/predicted.csv /path/to/original.csv
+```
+
+4. Once those values are available, metrics can be calculated to assess the performance of the trained model. Depending on the preferences, formulas can be applied accordingly.
+
+$`precision = TP / TP+FP`$
+$`\sqrt{3x-1}+(1+x)^2`$
 
 ## Data Details
 
