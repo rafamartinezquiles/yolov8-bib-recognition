@@ -142,6 +142,11 @@ The F1 score is the harmonic mean of precision and recall, providing a balance b
 
 ![F1 Score Formula](https://latex.codecogs.com/svg.latex?F1&space;=&space;2&space;\cdot&space;\frac{Precision&space;\cdot&space;Recall}{Precision&space;&plus;&space;Recall})
 
+#### Accuracy
+Accuracy represents the proportion of correctly classified predictions (both true positives and true negatives) among all predictions made by the model.
+
+![Accuracy Formula](https://latex.codecogs.com/svg.latex?\text{Accuracy}&space;=&space;\frac{TP&space;&plus;&space;TN}{TP&space;&plus;&space;TN&space;&plus;&space;FP&space;&plus;&space;FN})
+
 #### Specificity
 Specificity measures the proportion of actual negative cases that were correctly identified by the model.
 
