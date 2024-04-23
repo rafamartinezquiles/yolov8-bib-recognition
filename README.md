@@ -127,8 +127,25 @@ python calculate_metrics.py /path/to/predicted.csv /path/to/original.csv
 
 4. Once those values are available, metrics can be calculated to assess the performance of the trained model. Depending on the preferences, formulas can be applied accordingly.
 
-$`precision = TP / TP+FP`$
-$`\sqrt{3x-1}+(1+x)^2`$
+#### Precision
+Precision is calculated as the ratio of true positive (TP) predictions to the total number of positive predictions made by the model.
+
+![Precision Formula](https://latex.codecogs.com/svg.latex?\text{Precision}&space;=&space;\frac{TP}{TP&space;&plus;&space;FP})
+
+#### Recall
+Recall, also known as sensitivity or true positive rate, measures the ratio of correctly predicted positive observations to all actual positive observations.
+
+![Recall Formula](https://latex.codecogs.com/svg.latex?\text{Recall}&space;=&space;\frac{TP}{TP&space;&plus;&space;FN})
+
+#### F1 Score
+The F1 score is the harmonic mean of precision and recall, providing a balance between the two metrics.
+
+![F1 Score Formula](https://latex.codecogs.com/svg.latex?F1&space;=&space;2&space;\cdot&space;\frac{Precision&space;\cdot&space;Recall}{Precision&space;&plus;&space;Recall})
+
+#### Specificity
+Specificity measures the proportion of actual negative cases that were correctly identified by the model.
+
+![Specificity Formula](https://latex.codecogs.com/svg.latex?\text{Specificity}&space;=&space;\frac{TN}{TN&space;&plus;&space;FP})
 
 ## Data Details
 
