@@ -8,6 +8,31 @@ Detecting and recognizing Racing Bib Numbers (RBN) entails the challenging tasks
 This repository delves into the exploration of Convolutional Neural Networks (CNN), particularly focusing on the utilization of Ultralytics (in particular YOLO module) and OpenCV, to discern Racing Bib Numbers (RBNR) within natural image settings. By capitalizing on publicly available and labeled datasets sourced from earlier investigations (refer to the reference section for additional details), results have been achieved in terms of accuracy and prediction time.
 ![](images/results_accuracy.png)
 
+## Table of Contents
+```
+BibObjectDetection
+|__ images
+|   |__ results_accuracy.png 
+|   |__ threshold.jpg
+|   |__ yolo_application.png
+|__ weights
+|   |__ BDBD
+|   |_ |__ 
+|   |__ People
+|   |__ SVHN
+|__ labels
+|   |__ SVHN_obj.names
+|   |__ RBNR_obj.data 
+|   |__ SVHN_custom-yolov4-tiny-detector.cfg
+|   |__ SVHN_custom-yolov4-tiny-detector_best.weights
+|   |__ RBNR_custom-yolov4-tiny-detector.cfg
+|   |__ RBNR_custom-yolov4-tiny-detector_best.weights
+|__ src
+    |__
+README.md
+requirements.txt
+```
+
 ## Getting started
 
 ### Resources used
