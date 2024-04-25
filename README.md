@@ -82,47 +82,48 @@ It is worth noting that the "bib detection big data" provides functionality to d
 
 1. Retrieve the BDBD Dataset in YOLOv8 format from the provided [link](https://universe.roboflow.com/hcmus-3p8wh/bib-detection-big-data/dataset/3/download/yolov8). Download it as a zip file and ensure to place it within the main folder of the cloned repository named yolov8-bib-recognition.
 
-
-
-2. Inside the cloned repository, execute the following command in order to download the SVHN dataset necessary for the project elaboration.
-
 ```bash
-
+mv /path/to/source /path/to/destination
 ```
 
-1. Access the directory where the compressed folders associated with the SVHN dataset have been downloaded and execute the following commands to decompress these folders
+2. Inside the cloned repository, execute the following command in order to unzip the BDBD dataset necessary for the project elaboration.
+
+```bash
+unzip bib\ detection\ big\ data.v3i.yolov8.zip -d BDBD
+```
+
+3. Execute the following commands in the terminal to download all available SVHN folders, ensuring the training of our neural network.
+
+```bash
+mkdir SVHN
+cd SVHN
+wget http://ufldl.stanford.edu/housenumbers/train.tar.gz
+wget http://ufldl.stanford.edu/housenumbers/test.tar.gz
+```
+
+4. Execute the following commands to decompress these folders
 
 ```bash
 tar -xzvf train.tar.gz
 tar -xzvf test.tar.gz
 ```
 
-2. Once the previous folders have been downloaded and unzipped, the next step is to transfer all images to a folder named "images." This is achieved by executing the following commands, where the source path is designated as the first argument and the destination path is the same as the source path, with "/images" appended to ensure the images are saved there. This procedure is applied to both the train and test folders.
+5. Once the previous folders have been downloaded and unzipped, the next step is to transfer all images to a folder named "images." This is achieved by executing the following commands, where the source path is designated as the first argument and the destination path is the same as the source path, with "/images" appended to ensure the images are saved there. This procedure is applied to both the train and test folders.
 
 ```bash
-python move_png_files.py /path/to/train_folder/ /path/to/train_folder/images
-python move_png_files.py /path/to/test_folder/ /path/to/test_folder/images
+cd ..
+python src/move_png_files.py SVHN/train/ SVHN/train/images
+python src/move_png_files.py SVHN/test/ SVHN/test/images
 ```
 
-An example of how to use this would be as follows:
+6. Within the "labels" directory, you'll encounter two subdirectories: "labels_train" and "labels_test." Place these folders inside the "train" and "test" directories, respectively, so that each contains both "images" and "labels" directories. To accomplish this, rename "labels_train" and "labels_test" to simply "labels" within their respective folders.
+
+7. One notable aspect of YOLO is its dependency on a .yaml file to delineate the paths for both training data (images and labels) and testing, as well as the classes to be identified. To accomplish this, a Python script is executed, with parameters including the training and validation paths of the SVHN dataset. The script generates the required file in the designated location, considering that the other dataset contains all essential files.
 
 ```bash
-python move_png_files.py /home/rafa/Downloads/train/ /home/rafa/Downloads/train/images
-python move_png_files.py /home/rafa/Downloads/test/ /home/rafa/Downloads/test/images
-```
-
-3. Within the "labels" directory, you'll encounter two subdirectories: "labels_train" and "labels_test." Place these folders inside the "train" and "test" directories, respectively, so that each contains both "images" and "labels" directories. To accomplish this, rename "labels_train" and "labels_test" to simply "labels" within their respective folders.
-
-4. One notable aspect of YOLO is its dependency on a .yaml file to delineate the paths for both training data (images and labels) and testing, as well as the classes to be identified. To accomplish this, a Python script is executed, with parameters including the training and validation paths of the SVHN dataset. The script generates the required file in the designated location, considering that the other dataset contains all essential files.
-
-```bash
-python create_yaml.py /generic/path/to/where/train/and/test/folder/are
-```
-
-An example of how to use this would be as follows:
-
-```bash
-python create_yaml.py /home/rafa/Downloads/
+cd SVHN
+python ../src/create_yaml.py SVHN/
+cd ..
 ```
 
 ## Training of neural networks
@@ -136,7 +137,8 @@ The training of the neural networks will be accomplished by executing the train.
 - **model_size:** This parameter offers a selection of options ('n', 's', 'm', 'l', 'x') corresponding to different versions of YOLOv8 that can be trained.
 
 ```bash
-python train.py --data /path/to/the/yaml_file/svhn.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
+python src/train.py --data SVHN/svhn.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
+python src/train.py --data BDBD/data.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
 ```
 
 In case of not having the necessary time or resources to train the neural networks, the weights of the neural networks are provided, except for the extreme version due to a higher weight than allowed.In case you want to use it, you must download it from the following [Link](https://upm365-my.sharepoint.com/:f:/g/personal/rafael_martinez_quiles_alumnos_upm_es/EglMEhA_I9pJgzHpK_QYVHgBIvmszjXRYUIuGxlIEJ-k9w?e=nVKcsS).
@@ -148,26 +150,26 @@ At this point, a difference will be made between the type of file with which the
 Utilizing the provided code dedicated to image prediction, upon specifying the desired paths and filenames instead of <people_model_path(.pt)>, <bib_model_path(.pt)>, <number_model_path(.pt)>, <image_folder>, and <output_csv>, we facilitate predictions on an entire image directory. The output log meticulously details the outcomes derived from executing a neural network model across diverse input image dimensions. Each segment of the log commences with comprehensive information regarding the input image size and the count of detected objects or classes. Subsequently, the log meticulously records time measurements in milliseconds for distinct phases of the inference pipeline: preprocessing, inference, and postprocessing. These precise time measurements serve to elucidate the computational efficacy of the model at varying processing stages. Moreover, the log captures scenarios where no objects were detected in specific images, denoted as "(no detections)". Furthermore, a CSV file encapsulating the predictions is automatically generated and stored at the designated path under the specified filename.
 
 ```bash
-python image_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <image_folder> <output_csv>
+python src/image_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <image_folder> <output_csv>
 ```
 
 An example of how to use this would be as follows:
 
 ```bash
-python image_prediction.py /home/rafa/Desktop/NEMO/YOLOv8s/data/yolov8s.pt /home/rafa/Desktop/best.pt /home/rafa/Desktop/NEMO/YOLOv8s/data/runs/detect/yolov8s_svhn/weights/best.pt /home/rafa/Desktop/NEMO/Datasets/Detection/RBNR_datasets/images/test /home/rafa/Desktop/NEMO/yolov8s.csv
+python src/image_prediction.py runs/detect/yolov8s_people/weights/best.pt runs/detect/yolov8s_bib/weights/best.pt runs/detect/yolov8s_number/weights/best.pt RBNR/datasets/set1_org yolov8s_set1_org.csv
 ```
 
 ### Video Format
 This feature was incorporated into the project after to provide users with the capability to identify runners in both images and videos. It achieves this by extracting frames from the video at specified intervals. After the frames are extracted and stored in a folder, the existing procedure for identifying runners in images is applied. While real-time processing was contemplated, its implementation was deemed challenging due to computational resource constraints. For this, unlike the arguments to be inserted in the previous command, you should add the path where the video is placed and the time interval to be spent in the video between each of the frames.
 
 ```bash
-python video_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <video_path> <frame_interval> <output_csv>
+python src/video_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <video_path> <frame_interval> <output_csv>
 ```
 
 An example of how to use this would be as follows:
 
 ```bash
-python video_prediction.py /home/rafa/Desktop/NEMO/YOLOv8s/data/yolov8s.pt /home/rafa/Desktop/best.pt /home/rafa/Desktop/NEMO/YOLOv8s/data/runs/detect/yolov8s_svhn/weights/best.pt /home/rafa/Downloads/bib_segmentation.mp4 3 /home/rafa/Desktop/NEMO/yolov8s.csv
+python src/video_prediction.py runs/detect/yolov8s_people/weights/best.pt runs/detect/yolov8s_bib/weights/best.pt runs/detect/yolov8s_number/weights/best.pt 4 video.mp4 yolov8s_video.csv
 ```
 
 Executing this command will generate a folder containing each of the frames extracted from the video, alongside a CSV file containing the corresponding predictions for each frame. The terminal output resembles that obtained when making predictions on individual images.
@@ -182,34 +184,29 @@ This section is dedicated to extracting evaluation metrics for the RBNR Dataset,
 
 If the RBNR Dataset has not been downloaded, it should be obtained to extract evaluation metrics for the trained models.
 
-1. First, access the location where the compressed data is located, then execute the following command in your computer's terminal.
+1. To do so, execute the following commands in order to download the RBNR Dataset and unzip it inside our folder of interest.
 
 ```bash
-unzip RBNR_Datasets.zip
+wget https://people.csail.mit.edu/talidekel/Data/RBNR/RBNR_Datasets.zip
+unzip RBNR_Datasets.zip -d RBNR
 ```
 
 2. Run the following command to generate a CSV file for each subset (subfolder) of the downloaded dataset. These CSV files will be used to extract metrics against the predictions made. Ensure to specify the path where the uncompressed files are located when executing the command.
 
 ```bash
-python create_csv.py path/to/the/unzip_folder
-```
-
-An example of how to use this would be as follows:
-
-```bash
-python create_csv.py /home/rafa/Downloads/datasets
+python src/create_csv.py RBNR/datasets/
 ```
 
 3. Finally, in order to calculate all the necessary variables for the metrics calculation, we proceed to execute the code "calculate_metrics.py" where we have to pass as arguments the csv with the predictions and the original csv and it will return on the screen the 4 necessary variables.
 
 ```bash
-python calculate_metrics.py /path/to/predicted.csv /path/to/original.csv
+python src/calculate_metrics.py /path/to/predicted.csv /path/to/original.csv
 ```
 
 An example of how to use this would be as follows:
 
 ```bash
-python calculate_metrics.py /home/rafa/Desktop/NEMO/set_1.csv /home/rafa/Downloads/RBNR_Datasets/datasets/set1_org/set1_org.csv
+python src/calculate_metrics.py /home/rafa/Desktop/NEMO/set_1.csv /home/rafa/Downloads/RBNR_Datasets/datasets/set1_org/set1_org.csv
 ```
 
 4. Once those values are available, metrics (precision, recall, F1-score, accuracy and sensitivity) can be calculated to assess the performance of the trained model. Depending on the preferences, formulas can be applied accordingly.
@@ -229,13 +226,13 @@ A summary of the above techniques can be visually observed in the following imag
 To accomplish this task, the code in data_augmentation.py needs to be executed. It requires specifying the directory containing the image and label folders, as well as the directory where the new image and label folders will be saved.
 
 ```bash
-python data_augmentation.py /path/to/input_folder /path/to/output_folder
+python src/data_augmentation.py /path/to/input_folder /path/to/output_folder
 ```
 
 An example of how to use this would be as follows:
 
 ```bash
-python data_augmentation.py /home/rafa/Desktop/train/ /home/rafa/Desktop/Augmented/
+python data_augmentation.py SVHN/train/ SVHN_augmented/
 ```
 
 ## Data Details
