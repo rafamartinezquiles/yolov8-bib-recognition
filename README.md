@@ -17,18 +17,33 @@ BibObjectDetection
 |   |__ yolo_application.png
 |__ weights
 |   |__ BDBD
-|   |_ |__ 
+|   |   |__ yolov8l.pt
+|   |   |__ yolov8m.pt 
+|   |   |__ yolov8s.pt 
+|   |   |__ yolov8n.pt 
 |   |__ People
+|   |   |__ yolov8l.pt
+|   |   |__ yolov8m.pt 
+|   |   |__ yolov8s.pt 
+|   |   |__ yolov8n.pt 
 |   |__ SVHN
+|   |   |__ yolov8l.pt
+|   |   |__ yolov8m.pt 
+|   |   |__ yolov8s.pt 
+|   |   |__ yolov8n.pt 
 |__ labels
-|   |__ SVHN_obj.names
-|   |__ RBNR_obj.data 
-|   |__ SVHN_custom-yolov4-tiny-detector.cfg
-|   |__ SVHN_custom-yolov4-tiny-detector_best.weights
-|   |__ RBNR_custom-yolov4-tiny-detector.cfg
-|   |__ RBNR_custom-yolov4-tiny-detector_best.weights
+|   |__ labels_test
+|   |   |__ all the labels in txt format
+|   |__ labels_train
+|   |   |__ all the labels in txt format
 |__ src
-    |__
+    |__ create_csv.py
+    |__ create_yaml.py
+    |__ data_augmentation.py
+    |__ image_prediction.py
+    |__ move_png_files.py
+    |__ train.py
+    |__ video_prediction.py
 README.md
 requirements.txt
 ```
@@ -63,7 +78,17 @@ pip install -r requirements.txt
 4. In addition to the existing requirements, PyTorch needs to be installed separately. Due to its dependence on various computational specifications, it's essential for each user to install it individually by following the provided link. [PyTorch](https://pytorch.org/). By default, training is conducted on the GPU. If a GPU is unavailable, we switch to CPU training, which, though slower, still allows for model training.
 
 ### Setup
-Once the training data has been downloaded, training can proceed. It is worth noting that the "bib detection big data" provides functionality to download it in YOLOv8 format, which is recommended. Meanwhile, for SVHN data, we would need to download it in format 1 for both the training set and the test set. However, the latter do not come in the desired YOLOv8 format, so preprocessing would be required.
+It is worth noting that the "bib detection big data" provides functionality to download it in YOLOv8 format, which is recommended. Meanwhile, for SVHN data, we would need to download it in format 1 for both the training set and the test set. However, the latter do not come in the desired YOLOv8 format, so preprocessing would be required.
+
+1. Retrieve the BDBD Dataset in YOLOv8 format from the provided [link](https://universe.roboflow.com/hcmus-3p8wh/bib-detection-big-data/dataset/3/download/yolov8). Download it as a zip file and ensure to place it within the main folder of the cloned repository named yolov8-bib-recognition.
+
+
+
+2. Inside the cloned repository, execute the following command in order to download the SVHN dataset necessary for the project elaboration.
+
+```bash
+
+```
 
 1. Access the directory where the compressed folders associated with the SVHN dataset have been downloaded and execute the following commands to decompress these folders
 
