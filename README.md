@@ -26,7 +26,7 @@ conda activate bib_detection
 2. Clone repository
 
 ```bash
-git clone https://github.com/rafamartinezquiles/bachelor-s-thesis.git
+git clone https://github.com/rafamartinezquiles/yolov8-bib-recognition.git
 ```
 
 3. In the same folder that the requirements are, install the necessary requirements
@@ -35,7 +35,7 @@ git clone https://github.com/rafamartinezquiles/bachelor-s-thesis.git
 pip install -r requirements.txt
 ```
 
-4. In addition to the existing requirements, PyTorch needs to be installed separately. Due to its dependence on various computational specifications, it's essential for each user to install it individually by following the provided link. [PyTorch](https://pytorch.org/).
+4. In addition to the existing requirements, PyTorch needs to be installed separately. Due to its dependence on various computational specifications, it's essential for each user to install it individually by following the provided link. [PyTorch](https://pytorch.org/). By default, training is conducted on the GPU. If a GPU is unavailable, we switch to CPU training, which, though slower, still allows for model training.
 
 ### Setup
 Once the training data has been downloaded, training can proceed. It is worth noting that the "bib detection big data" provides functionality to download it in YOLOv8 format, which is recommended. Meanwhile, for SVHN data, we would need to download it in format 1 for both the training set and the test set. However, the latter do not come in the desired YOLOv8 format, so preprocessing would be required.
@@ -54,12 +54,25 @@ python move_png_files.py /path/to/train_folder/ /path/to/train_folder/images
 python move_png_files.py /path/to/test_folder/ /path/to/test_folder/images
 ```
 
+An example of how to use this would be as follows:
+
+```bash
+python move_png_files.py /home/rafa/Downloads/train/ /home/rafa/Downloads/train/images
+python move_png_files.py /home/rafa/Downloads/test/ /home/rafa/Downloads/test/images
+```
+
 3. Within the "labels" directory, you'll encounter two subdirectories: "labels_train" and "labels_test." Place these folders inside the "train" and "test" directories, respectively, so that each contains both "images" and "labels" directories. To accomplish this, rename "labels_train" and "labels_test" to simply "labels" within their respective folders.
 
 4. One notable aspect of YOLO is its dependency on a .yaml file to delineate the paths for both training data (images and labels) and testing, as well as the classes to be identified. To accomplish this, a Python script is executed, with parameters including the training and validation paths of the SVHN dataset. The script generates the required file in the designated location, considering that the other dataset contains all essential files.
 
 ```bash
 python create_yaml.py /generic/path/to/where/train/and/test/folder/are
+```
+
+An example of how to use this would be as follows:
+
+```bash
+python create_yaml.py /home/rafa/Downloads/
 ```
 
 ## Training of neural networks
@@ -88,11 +101,23 @@ Utilizing the provided code dedicated to image prediction, upon specifying the d
 python image_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <image_folder> <output_csv>
 ```
 
+An example of how to use this would be as follows:
+
+```bash
+python image_prediction.py /home/rafa/Desktop/NEMO/YOLOv8s/data/yolov8s.pt /home/rafa/Desktop/best.pt /home/rafa/Desktop/NEMO/YOLOv8s/data/runs/detect/yolov8s_svhn/weights/best.pt /home/rafa/Desktop/NEMO/Datasets/Detection/RBNR_datasets/images/test /home/rafa/Desktop/NEMO/yolov8s.csv
+```
+
 ### Video Format
 This feature was incorporated into the project after to provide users with the capability to identify runners in both images and videos. It achieves this by extracting frames from the video at specified intervals. After the frames are extracted and stored in a folder, the existing procedure for identifying runners in images is applied. While real-time processing was contemplated, its implementation was deemed challenging due to computational resource constraints. For this, unlike the arguments to be inserted in the previous command, you should add the path where the video is placed and the time interval to be spent in the video between each of the frames.
 
 ```bash
 python video_prediction.py <people_model_path(.pt)> <bib_model_path(.pt)> <number_model_path(.pt)> <video_path> <frame_interval> <output_csv>
+```
+
+An example of how to use this would be as follows:
+
+```bash
+python video_prediction.py /home/rafa/Desktop/NEMO/YOLOv8s/data/yolov8s.pt /home/rafa/Desktop/best.pt /home/rafa/Desktop/NEMO/YOLOv8s/data/runs/detect/yolov8s_svhn/weights/best.pt /home/rafa/Downloads/bib_segmentation.mp4 3 /home/rafa/Desktop/NEMO/yolov8s.csv
 ```
 
 Executing this command will generate a folder containing each of the frames extracted from the video, alongside a CSV file containing the corresponding predictions for each frame. The terminal output resembles that obtained when making predictions on individual images.
@@ -119,13 +144,49 @@ unzip RBNR_Datasets.zip
 python create_csv.py path/to/the/unzip_folder
 ```
 
+An example of how to use this would be as follows:
+
+```bash
+python create_csv.py /home/rafa/Downloads/datasets
+```
+
 3. Finally, in order to calculate all the necessary variables for the metrics calculation, we proceed to execute the code "calculate_metrics.py" where we have to pass as arguments the csv with the predictions and the original csv and it will return on the screen the 4 necessary variables.
 
 ```bash
 python calculate_metrics.py /path/to/predicted.csv /path/to/original.csv
 ```
 
+An example of how to use this would be as follows:
+
+```bash
+python calculate_metrics.py /home/rafa/Desktop/NEMO/set_1.csv /home/rafa/Downloads/RBNR_Datasets/datasets/set1_org/set1_org.csv
+```
+
 4. Once those values are available, metrics (precision, recall, F1-score, accuracy and sensitivity) can be calculated to assess the performance of the trained model. Depending on the preferences, formulas can be applied accordingly.
+
+## Additional task - Data augmentation
+To enhance the training dataset for neural networks, data augmentation can be employed. This process involves artificially generating new data from existing data, primarily to facilitate the training of new machine learning (ML) models. In this case, the following techniques have been used on the original images:
+
+- **THRESH_BINARY:** This method sets pixel values above a certain threshold to a maximum value (255 in this case) and values below the threshold to zero. It essentially creates a binary image where pixels are either fully black or fully white.
+- **THRESH_BINARY_INV:** Similar to THRESH_BINARY, but it inverts the binary image. Pixels with values above the threshold become black (0), and pixels below the threshold become white (255).
+- **THRESH_TRUNC:** This method truncates pixel values above the threshold to the threshold value itself (255 in this case). Pixels below the threshold remain unchanged. It essentially clips the pixel values above the threshold.
+- **THRESH_TOZERO:** Pixels below the threshold are set to zero, and pixels above the threshold remain unchanged.
+- **THRESH_TOZERO_INV:** It is the inverse of THRESH_TOZERO. Pixels above the threshold are set to zero, and pixels below the threshold remain unchanged.
+
+A summary of the above techniques can be visually observed in the following image.
+![](images/threshold.jpg)
+
+To accomplish this task, the code in data_augmentation.py needs to be executed. It requires specifying the directory containing the image and label folders, as well as the directory where the new image and label folders will be saved.
+
+```bash
+python data_augmentation.py /home/rafa/Desktop/train/ /home/rafa/Desktop/Augmented/
+```
+
+An example of how to use this would be as follows:
+
+```bash
+python data_augmentation.py /path/to/input_folder /path/to/output_folder
+```
 
 ## Data Details
 
