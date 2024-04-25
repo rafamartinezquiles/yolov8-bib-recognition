@@ -179,13 +179,13 @@ A summary of the above techniques can be visually observed in the following imag
 To accomplish this task, the code in data_augmentation.py needs to be executed. It requires specifying the directory containing the image and label folders, as well as the directory where the new image and label folders will be saved.
 
 ```bash
-python data_augmentation.py /home/rafa/Desktop/train/ /home/rafa/Desktop/Augmented/
+python data_augmentation.py /path/to/input_folder /path/to/output_folder
 ```
 
 An example of how to use this would be as follows:
 
 ```bash
-python data_augmentation.py /path/to/input_folder /path/to/output_folder
+python data_augmentation.py /home/rafa/Desktop/train/ /home/rafa/Desktop/Augmented/
 ```
 
 ## Data Details
