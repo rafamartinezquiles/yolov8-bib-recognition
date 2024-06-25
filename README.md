@@ -123,7 +123,7 @@ python src/move_png_files.py SVHN/test/ SVHN/test/images
 
 ```bash
 cd SVHN
-python ../src/create_yaml.py SVHN/
+python ../src/create_yaml.py /complete/path/to/SVHN/
 cd ..
 ```
 
@@ -138,8 +138,8 @@ The training of the neural networks will be accomplished by executing the train.
 - **model_size:** This parameter offers a selection of options ('n', 's', 'm', 'l', 'x') corresponding to different versions of YOLOv8 that can be trained.
 
 ```bash
-python src/train.py --data SVHN/svhn.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
-python src/train.py --data BDBD/data.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
+python /complete/path/to/src/train.py --data /complete/path/to/SVHN/svhn.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
+python /complete/path/to/src/train.py --data /complete/path/to/BDBD/data.yaml --imgsz 640 --epochs 400 --batch 32 --name svhn_yolov8s --model_size s
 ```
 
 In case of not having the necessary time or resources to train the neural networks, the weights of the neural networks are provided, except for the extreme version due to a higher weight than allowed.In case you want to use it, you must download it from the following [Link](https://upm365-my.sharepoint.com/:f:/g/personal/rafael_martinez_quiles_alumnos_upm_es/EglMEhA_I9pJgzHpK_QYVHgBIvmszjXRYUIuGxlIEJ-k9w?e=nVKcsS).
