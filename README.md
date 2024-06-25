@@ -72,6 +72,7 @@ git clone https://github.com/rafamartinezquiles/yolov8-bib-recognition.git
 3. In the same folder that the requirements are, install the necessary requirements
 
 ```bash
+cd yolov8-bib-recognition
 pip install -r requirements.txt
 ```
 
