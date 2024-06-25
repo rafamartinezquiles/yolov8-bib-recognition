@@ -7,7 +7,7 @@ def create_svhn_yaml(data_path):
     yaml_content = {
         "path": data_path,
         "train": "train/images",
-        "val": "test/images",
+        "val": "val/images",
         "names": {
             0: '0',
             1: '1',
